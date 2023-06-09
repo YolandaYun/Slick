@@ -1,0 +1,24 @@
+#
+Fixed Thread Pool:
+This type of thread pool has a fixed number of worker threads that are created when the pool is initialized.
+Each submitted task is assigned to one of the available threads.
+If all threads are busy, the task will be queued until a thread becomes available.
+*****
+import java.util.concurrent.Executors
+import scala.concurrent.{ExecutionContext, Future}
+
+// Create a fixed thread pool with four threads
+val executor = Executors.newFixedThreadPool(4)
+implicit val ec: ExecutionContext = ExecutionContext.fromExecutorService(executor)
+
+// Submit a task for execution
+val futureResult: Future[String] = Future {
+  // Task logic goes here
+  "Task executed successfully"
+}
+*****
+
+
+# daemon VS normal thread
+even though daemon thread has not end, if normal thread has ended, then execution ends
+"if you create a fixed thread pool using Executors.newFixedThreadPool, the threads in that pool are typically non-daemon by default."
