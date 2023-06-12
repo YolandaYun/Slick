@@ -22,3 +22,13 @@ val futureResult: Future[String] = Future {
 # daemon VS normal thread
 even though daemon thread has not end, if normal thread has ended, then execution ends
 "if you create a fixed thread pool using Executors.newFixedThreadPool, the threads in that pool are typically non-daemon by default."
+
+******
+
+A Query can be converted into an Action by calling its result method. The Action can then be executed directly in a streaming or fully materialized way, or composed further with other Actions:
+
+val q = coffees.map(_.price)
+val action = q.result
+val result: Future[Seq[Double]] = db.run(action)
+val sql = action.statements.head
+If you only want a single result value, you can call head or headOption on the result Action.
